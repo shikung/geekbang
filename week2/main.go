@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	MYSQL_HOST     string = "139.159.190.137"
-	MYSQL_PORT     string = "3306"
-	MYSQL_USERNAME string = "haiji"
-	MYSQL_PASS     string = "haiJi@2020"
+	MYSQL_HOST     string = "111.111.111.137"
+	MYSQL_PORT     string = "111"
+	MYSQL_USERNAME string = "1111"
+	MYSQL_PASS     string = "111@2020"
 	MYSQL_CHARSET  string = "utf8"
 	MYSQL_DB       string = "test"
 )
@@ -26,9 +26,9 @@ type Test struct {
 }
 
 func ConncetDB() {
-	mysql_connect_uri := MYSQL_USERNAME + ":" + MYSQL_PASS + "@tcp(" + MYSQL_HOST + ":" + MYSQL_PORT + ")/" + MYSQL_DB + "?charset=" + MYSQL_CHARSET
+	mysqlConnectUri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s??charset=%s", MYSQL_USERNAME, MYSQL_PASS, MYSQL_HOST, MYSQL_PORT, MYSQL_DB, MYSQL_CHARSET)
 	var err error
-	DB, err = sql.Open("mysql", mysql_connect_uri)
+	DB, err = sql.Open("mysql", mysqlConnectUri)
 	if err != nil {
 		panic("unknown driver or db uri format error")
 	}
