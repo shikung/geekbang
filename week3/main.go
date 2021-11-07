@@ -12,7 +12,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-func serverApp(ctx context.Context, grp *errgroup.Group, stop <-chan string) error {
+func serverApp(ctx context.Context, stop <-chan string) error {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(w, "hello server app 5G")
 	})
@@ -25,7 +25,7 @@ func serverApp(ctx context.Context, grp *errgroup.Group, stop <-chan string) err
 	return nil
 }
 
-func listenSignal(ctx context.Context, grp *errgroup.Group, stop chan string) error {
+func listenSignal(ctx context.Context, stop chan string) error {
 	interrupt := make(chan os.Signal, 1)
 	reload := make(chan os.Signal, 1)
 	signal.Notify(interrupt, syscall.SIGINT)
@@ -49,10 +49,10 @@ func main() {
 	group, ctx := errgroup.WithContext(context.Background())
 
 	group.Go(func() error {
-		return serverApp(ctx, group, stop)
+		return serverApp(ctx, stop)
 	})
 	group.Go(func() error {
-		return listenSignal(ctx, group, stop)
+		return listenSignal(ctx, stop)
 	})
 	err := group.Wait()
 	fmt.Println(err)
