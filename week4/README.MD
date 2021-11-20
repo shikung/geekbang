@@ -6,3 +6,7 @@
 #### 作业过程
 
 #### 作业思考
+1.api层是定义api的地方，定义对外提供的服务的api，使用protof
+2.api层定义的api需要在service里实现
+3.service是调biz的方法
+4.biz调data的方法

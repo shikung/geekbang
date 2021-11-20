@@ -19,6 +19,6 @@ func NewUserCase(repo CartRepo) *UserCase {
 	return &UserCase{repo: repo}
 }
 
-func (us *UserCase) getUser(ctx context.Context, uid int64) (*User, error) {
+func (us *UserCase) GetUser(ctx context.Context, uid int64) (*User, error) {
 	return us.repo.GetUser(ctx, uid)
 }
