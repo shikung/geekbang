@@ -23,16 +23,16 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		go handle(&conn, *ath) // 起一个单独的协程处理，有多少个请求，就起多少个协程，协程之间共享同一个全局变量limiting，对其进行原子操作。
+		go handle(&conn, ath) // 起一个单独的协程处理，有多少个请求，就起多少个协程，协程之间共享同一个全局变量limiting，对其进行原子操作。
 	}
 }
 
-func handle(conn *net.Conn, ath athena.Athena) {
+func handle(conn *net.Conn, ath *athena.Athena) {
 	defer (*conn).Close()
 	ath.Add()
-	//fmt.Println("handler n:", n)
 	if ath.CurCount > int32(ath.LimitReq) { // 超出限频
 		ath.Reset()
+		fmt.Println("hello", ath.CurCount)
 		(*conn).Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\nError, too many request, please try again."))
 	} else {
 		ath.Cal()
