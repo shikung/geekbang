@@ -2,30 +2,38 @@ package biz
 
 import (
 	"context"
+	"time"
 )
 
 type Comment struct {
-	id   int32
-	name string
+	ID           int32
+	Content      string
+	ContentId    int32
+	ContentType  int8
+	ContentTitle string
+	Status       int8
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	Like         int64
 }
 
 type CommentRepo interface {
-	CreateComment(context.Context, *Comment) error
-	GetComment(context.Context, *Comment) error
+	CreateComment(ctx context.Context, comment *Comment) (int32, error)
+	GetComment(ctx context.Context, id int32) (*Comment, error)
 }
 
-type CommentUseCase struct {
+type CommentUsercase struct {
 	repo CommentRepo
 }
 
-func NewCommentUserCase(repo CommentRepo) *CommentUseCase {
-	return &CommentUseCase{repo: repo}
+func NewCommentUsercase(repo CommentRepo) *CommentUsercase {
+	return &CommentUsercase{repo: repo}
 }
 
-func (uc *CommentUseCase) Create(ctx context.Context, m *Comment) error {
-	return uc.repo.CreateComment(ctx, m)
+func (uc *CommentUsercase) CreateComment(ctx context.Context, comment *Comment) (int32, error) {
+	return uc.repo.CreateComment(ctx, comment)
 }
 
-func (uc *CommentUseCase) Get(ctx context.Context, m *Comment) error {
-	return uc.repo.GetComment(ctx, m)
+func (uc *CommentUsercase) GetComment(ctx context.Context, id int32) (*Comment, error) {
+	return uc.repo.GetComment(ctx, id)
 }

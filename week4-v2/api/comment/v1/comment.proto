@@ -1,48 +1,52 @@
 syntax = "proto3";
 
-package api.comment.v1;
+package comment.v1;
 
 import "google/api/annotations.proto";
 
 option go_package = "week4-v2/api/comment/v1;v1";
 option java_multiple_files = true;
-option java_package = "api.comment.v1";
+option java_package = "dev.kratos.api.comment.v1";
+option java_outer_classname = "CommentProtoV1";
 
-service Comment {
-	rpc CreateComment (CreateCommentRequest) returns (CreateCommentReply){
-		option (google.api.http) ={
-			put:"/comment"
-		};
-	};
-	rpc UpdateComment (UpdateCommentRequest) returns (UpdateCommentReply){
-		option (google.api.http) ={
-			post:"/comment"
-		};
-	};
-	rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply);
-	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
-		option (google.api.http) = {
-			get:"/comment/{id}"
-		};
-	};
-	rpc ListComment (ListCommentRequest) returns (ListCommentReply);
+service CommentService {
+    rpc CreateComment(CreateCommentRequest) returns (CreateCommentReply){
+        option (google.api.http) = {
+            put: "/comment"
+            body: "*"
+        };
+    }
+
+    rpc GetComment(GetCommentRequest) returns (GetCommentReply){
+        option (google.api.http) = {
+            get :"/coment/{id}"
+        };
+    }
+}
+
+message Comment {
+    int32 id = 1;
+    string content = 2;
+    int32 contentId = 3;
+    int32 contentType = 4;
+    string contentTitle = 5;
 }
 
 message CreateCommentRequest {
-	string name = 1;
+    string content = 1;
+    int32 contentId = 2;
+    int32 contentType = 3;
+    string contentTitle = 4;
 }
-message CreateCommentReply {}
 
-message UpdateCommentRequest {}
-message UpdateCommentReply {}
-
-message DeleteCommentRequest {}
-message DeleteCommentReply {}
+message CreateCommentReply {
+    int32 id = 1;
+}
 
 message GetCommentRequest {
-	 int32 id =1;
+    int32 id = 1;
 }
-message GetCommentReply {}
 
-message ListCommentRequest {}
-message ListCommentReply {}
+message GetCommentReply {
+    Comment Comment = 1;
+}

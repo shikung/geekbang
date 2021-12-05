@@ -17,26 +17,24 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-type CommentHTTPServer interface {
+type CommentServiceHTTPServer interface {
 	CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentReply, error)
 	GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error)
-	UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentReply, error)
 }
 
-func RegisterCommentHTTPServer(s *http.Server, srv CommentHTTPServer) {
+func RegisterCommentServiceHTTPServer(s *http.Server, srv CommentServiceHTTPServer) {
 	r := s.Route("/")
-	r.PUT("/comment", _Comment_CreateComment0_HTTP_Handler(srv))
-	r.POST("/comment", _Comment_UpdateComment0_HTTP_Handler(srv))
-	r.GET("/comment/{id}", _Comment_GetComment0_HTTP_Handler(srv))
+	r.PUT("/comment", _CommentService_CreateComment0_HTTP_Handler(srv))
+	r.GET("/coment/{id}", _CommentService_GetComment0_HTTP_Handler(srv))
 }
 
-func _Comment_CreateComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.Context) error {
+func _CommentService_CreateComment0_HTTP_Handler(srv CommentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in CreateCommentRequest
-		if err := ctx.BindQuery(&in); err != nil {
+		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/api.comment.v1.Comment/CreateComment")
+		http.SetOperation(ctx, "/comment.v1.CommentService/CreateComment")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.CreateComment(ctx, req.(*CreateCommentRequest))
 		})
@@ -49,26 +47,7 @@ func _Comment_CreateComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.C
 	}
 }
 
-func _Comment_UpdateComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in UpdateCommentRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, "/api.comment.v1.Comment/UpdateComment")
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateComment(ctx, req.(*UpdateCommentRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*UpdateCommentReply)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _Comment_GetComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.Context) error {
+func _CommentService_GetComment0_HTTP_Handler(srv CommentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetCommentRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -77,7 +56,7 @@ func _Comment_GetComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.Cont
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/api.comment.v1.Comment/GetComment")
+		http.SetOperation(ctx, "/comment.v1.CommentService/GetComment")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetComment(ctx, req.(*GetCommentRequest))
 		})
@@ -90,53 +69,39 @@ func _Comment_GetComment0_HTTP_Handler(srv CommentHTTPServer) func(ctx http.Cont
 	}
 }
 
-type CommentHTTPClient interface {
+type CommentServiceHTTPClient interface {
 	CreateComment(ctx context.Context, req *CreateCommentRequest, opts ...http.CallOption) (rsp *CreateCommentReply, err error)
 	GetComment(ctx context.Context, req *GetCommentRequest, opts ...http.CallOption) (rsp *GetCommentReply, err error)
-	UpdateComment(ctx context.Context, req *UpdateCommentRequest, opts ...http.CallOption) (rsp *UpdateCommentReply, err error)
 }
 
-type CommentHTTPClientImpl struct {
+type CommentServiceHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewCommentHTTPClient(client *http.Client) CommentHTTPClient {
-	return &CommentHTTPClientImpl{client}
+func NewCommentServiceHTTPClient(client *http.Client) CommentServiceHTTPClient {
+	return &CommentServiceHTTPClientImpl{client}
 }
 
-func (c *CommentHTTPClientImpl) CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...http.CallOption) (*CreateCommentReply, error) {
+func (c *CommentServiceHTTPClientImpl) CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...http.CallOption) (*CreateCommentReply, error) {
 	var out CreateCommentReply
 	pattern := "/comment"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/api.comment.v1.Comment/CreateComment"))
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation("/comment.v1.CommentService/CreateComment"))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "PUT", path, nil, &out, opts...)
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return &out, err
 }
 
-func (c *CommentHTTPClientImpl) GetComment(ctx context.Context, in *GetCommentRequest, opts ...http.CallOption) (*GetCommentReply, error) {
+func (c *CommentServiceHTTPClientImpl) GetComment(ctx context.Context, in *GetCommentRequest, opts ...http.CallOption) (*GetCommentReply, error) {
 	var out GetCommentReply
-	pattern := "/comment/{id}"
+	pattern := "/coment/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/api.comment.v1.Comment/GetComment"))
+	opts = append(opts, http.Operation("/comment.v1.CommentService/GetComment"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, err
-}
-
-func (c *CommentHTTPClientImpl) UpdateComment(ctx context.Context, in *UpdateCommentRequest, opts ...http.CallOption) (*UpdateCommentReply, error) {
-	var out UpdateCommentReply
-	pattern := "/comment"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/api.comment.v1.Comment/UpdateComment"))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
