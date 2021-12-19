@@ -1,0 +1,30 @@
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 30 -n 1000000 -d 100 -q
+PING (inline): 45800.13 requests per second
+PING: 44124.79 requests per second
+MSET (10 keys): 25604.92 requests per second
+SET: 42983.02 requests per second
+GET: 30708.76 requests per second
+INCR: 43140.64 requests per second
+LPUSH: 45201.83 requests per second
+LPOP: 45207.95 requests per second
+SADD: 45533.20 requests per second
+SPOP: 44644.85 requests per second
+LPUSH (again, in order to bench LRANGE): 42669.39 requests per second
+LRANGE (first 100 elements): 19397.51 requests per second
+LRANGE (first 300 elements): 7150.77 requests per second
+
+
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 50 -n 1000000 -d 100 -q
+PING (inline): 46585.30 requests per second
+PING: 45259.11 requests per second
+MSET (10 keys): 22879.11 requests per second
+SET: 45283.70 requests per second
+GET: 47089.85 requests per second
+INCR: 28879.20 requests per second
+LPUSH: 43018.15 requests per second
+LPOP: 44511.71 requests per second
+SADD: 45012.61 requests per second
+SPOP: 44984.26 requests per second
+LPUSH (again, in order to bench LRANGE): 44257.58 requests per second
+LRANGE (first 100 elements): 17663.16 requests per second
+LRANGE (first 100 elements):: 6630.52 requests per second

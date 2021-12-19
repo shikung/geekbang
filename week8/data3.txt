@@ -1,0 +1,61 @@
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 30 -n 1000000 -d 10 -q
+PING (inline): 33786.07 requests per second
+PING: 33193.92 requests per second
+MSET (10 keys): 19286.03 requests per second
+SET: 27947.79 requests per second
+GET: 29867.69 requests per second
+INCR: 25008.75 requests per second
+LPUSH: 20408.16 requests per second
+LPOP: 25427.18 requests per second
+SADD: 23529.96 requests per second
+SPOP: 32700.04 requests per second
+LPUSH (again, in order to bench LRANGE): 30767.34 requests per second
+LRANGE (first 100 elements): 23131.02 requests per second
+LRANGE (first 300 elements): 15420.68 requests per second
+
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 10 -n 1000000 -d 20 -q
+PING (inline): 19671.49 requests per second
+PING: 20181.63 requests per second
+MSET (10 keys): 16112.14 requests per second
+SET: 17075.92 requests per second
+GET: 24395.60 requests per second
+INCR: 20215.09 requests per second
+LPUSH: 24420.62 requests per second
+LPOP: 24019.41 requests per second
+SADD: 25241.05 requests per second
+SPOP: 24829.30 requests per second
+LPUSH (again, in order to bench LRANGE): 24800.36 requests per second
+LRANGE (first 100 elements): 18113.64 requests per second
+LRANGE (first 300 elements): 9370.58 requests per second
+
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 8 -n 1000000 -d 20 -q
+PING (inline): 23190.02 requests per second
+PING: 23964.72 requests per second
+MSET (10 keys): 18222.57 requests per second
+SET: 21556.37 requests per second
+GET: 22932.10 requests per second
+INCR: 22474.94 requests per second
+LPUSH: 24168.02 requests per second
+LPOP: 22686.03 requests per second
+SADD: 21718.83 requests per second
+SPOP: 22394.41 requests per second
+LPUSH (again, in order to bench LRANGE): 23235.82 requests per second
+LRANGE (first 100 elements): 19793.75 requests per second
+LRANGE (first 300 elements): 11081.19 requests per second
+
+
+PS C:\soft\redis\64bit> .\redis-benchmark.exe -c 30 -n 1000000 -d 20 -q
+PING (inline): 35043.45 requests per second
+PING: 30227.92 requests per second
+MSET (10 keys): 19465.86 requests per second
+SET: 31790.44 requests per second
+GET: 34274.75 requests per second
+INCR: 33863.87 requests per second
+LPUSH: 34245.40 requests per second
+LPOP: 34237.20 requests per second
+SADD: 33448.17 requests per second
+SPOP: 34231.34 requests per second
+LPUSH (again, in order to bench LRANGE): 33285.62 requests per second
+LRANGE (first 100 elements): 24082.46 requests per second
+LRANGE (first 300 elements): 12136.95 requests per second
+
